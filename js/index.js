@@ -38,15 +38,14 @@ const getWeather = () => {
       validity_checks,
       ...solData
     } = data
-
     return Object.entries(solData).map(([sol, data]) => {
       return {
         sol,
-        maxTemp: data.AT.mx,
-        minTemp: data.AT.mn,
-        windSpeed: data.HWS.av,
-        windDirectionDegrees: data.WD.most_common.compass_degrees,
-        windDirectionCardinal: data.WD.most_common.compass_point,
+        maxTemp: data.AT !== undefined ? data.AT.mx : data.PRE.mx,
+        minTemp: data.AT !== undefined ? data.AT.mn : data.PRE.mn,
+        windSpeed: data.HWS !== undefined ? data.HWS.av : 0,
+        windDirectionDegrees: data.WD.most_common !== null ? data.WD.most_common.compass_degrees : 0,
+        windDirectionCardinal: data.WD.most_common !== null ? data.WD.most_common.compass_point : 'not specified',
         date: new Date(data.First_UTC)
       }
     })
